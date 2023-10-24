@@ -1,0 +1,40 @@
+﻿@page
+@model Housing_21_test.Pages.DisplayPersonsModel
+
+@{
+	ViewData["Title"] = "Display Persons";
+}
+
+<div>
+
+    <a asp-action="DownloadCsv" asp-controller="Download" class="btn btn-primary">Download CSV</a>
+
+    @if (Model.Persons != null && Model.Persons.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Telephone Number</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var person in Model.Persons)
+                {
+                    <tr>
+                        <td>@person.Name</td>
+                        <td>@person.DateOfBirth.ToShortDateString()</td>
+                        <td>@person.TelephoneNumber</td>
+                        <td>@person.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No persons found.</p>
+    }
+</div>
