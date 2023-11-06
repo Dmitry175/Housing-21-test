@@ -5,9 +5,12 @@ using Housing_21_test.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Text;
+using Housing_21_test.Helpers;
 
 namespace Housing_21_test.Controllers
 {
+    [Route("api/downloads")]
+    [ApiController]
     public class DownloadController : Controller
     {
         private readonly IPersonRepository _personRepository;
@@ -17,16 +20,20 @@ namespace Housing_21_test.Controllers
             _personRepository = personRepository;
         }
 
-        [HttpGet]
+        [HttpGet("download")]
         public async Task<IActionResult> DownloadCsv()
         {
+            string filename = "persons.csv";
+
             var persons = await _personRepository.GetPersons();
 
             var csvExport = GenerateCsv(persons);
             var bytes = Encoding.UTF8.GetBytes(csvExport);
 
-            return File(bytes, "text/csv", "persons.csv");
+            return File(bytes, "text/csv", filename);
         }
+
+
         private string GenerateCsv(List<Person> persons)
         {
             using var memoryStream = new MemoryStream();
